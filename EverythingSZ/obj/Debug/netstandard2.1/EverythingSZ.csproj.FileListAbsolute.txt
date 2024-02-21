@@ -1,0 +1,9 @@
+E:\codeing\rlqb_client\EverythingSZ\bin\Debug\netstandard2.1\EverythingSZ.deps.json
+E:\codeing\rlqb_client\EverythingSZ\bin\Debug\netstandard2.1\EverythingSZ.dll
+E:\codeing\rlqb_client\EverythingSZ\bin\Debug\netstandard2.1\EverythingSZ.pdb
+E:\codeing\rlqb_client\EverythingSZ\obj\Debug\netstandard2.1\EverythingSZ.GeneratedMSBuildEditorConfig.editorconfig
+E:\codeing\rlqb_client\EverythingSZ\obj\Debug\netstandard2.1\EverythingSZ.AssemblyInfoInputs.cache
+E:\codeing\rlqb_client\EverythingSZ\obj\Debug\netstandard2.1\EverythingSZ.AssemblyInfo.cs
+E:\codeing\rlqb_client\EverythingSZ\obj\Debug\netstandard2.1\EverythingSZ.csproj.CoreCompileInputs.cache
+E:\codeing\rlqb_client\EverythingSZ\obj\Debug\netstandard2.1\EverythingSZ.dll
+E:\codeing\rlqb_client\EverythingSZ\obj\Debug\netstandard2.1\EverythingSZ.pdb
