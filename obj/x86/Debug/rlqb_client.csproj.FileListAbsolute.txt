@@ -1,0 +1,12 @@
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.csproj.AssemblyReference.cache
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.Form1.resources
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.Properties.Resources.resources
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.csproj.GenerateResource.cache
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.csproj.CoreCompileInputs.cache
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.exe
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.pdb
+D:\rlqb_client_new\bin\x86\Debug\rlqb_client.exe.config
+D:\rlqb_client_new\bin\x86\Debug\rlqb_client.exe
+D:\rlqb_client_new\bin\x86\Debug\rlqb_client.pdb
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.csproj.Fody.CopyLocal.cache
+D:\rlqb_client_new\obj\x86\Debug\rlqb_client.Form2.resources

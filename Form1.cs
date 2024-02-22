@@ -1,4 +1,5 @@
 ﻿using QueryEngine;
+using rlqb_client.core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,24 +14,24 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeChatGetKey;
+using WXDBDecrypt.NET;
 
 namespace rlqb_client
 {
     public partial class Form1 : Form
-
-
     {
-
-
         private List<FileAndDirectoryEntry> entries = new List<FileAndDirectoryEntry>();
+        List<Wxmsg> onlineAccount = new List<Wxmsg>();
 
         public Form1()
         {
-
-            Wxdump.ReadTest();
-            
+           
+            getConfig();
             InitializeComponent();
-            LoadEntriesAsync();
+            initOnlineWx();
+          
+
+            // LoadEntriesAsync();
         }
 
 
@@ -86,6 +87,42 @@ namespace rlqb_client
         {
             SearchResultAsync("msg0");
 
+        }
+
+        private void initOnlineWx()
+        {
+            this.listBox2.Items.Clear();
+            this.onlineAccount= Wxdump.ReadTest();
+            foreach (var data in this.onlineAccount)
+            {
+                this.listBox2.Items.Add(data.name+"（"+data.wxid+"）");
+                List<string> microMsgDbs= data.microMsgDbs;
+                List<string> msgDbs = data.msgDbs;
+                foreach (var microMsg in microMsgDbs)
+                {
+                    WxDecrypt.DecryptDB(microMsg, microMsg + "temp.db", data.key);
+                }
+                foreach(var msg in msgDbs)
+                {
+                    WxDecrypt.DecryptDB(msg, msg + "temp.db", data.key);
+
+                }
+
+
+            }
+
+        }
+
+        private void getConfig()
+        {
+            ConfigUtil.GetValue("host");
+            ConfigUtil.GetValue("port");
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2(); 
+            form2.ShowDialog();
         }
     }
 

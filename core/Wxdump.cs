@@ -1,21 +1,33 @@
+using rlqb_client.core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using WechatBakTool.Helpers;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WeChatGetKey
 {
 	internal class Wxdump
 	{
 		
-		public static void ReadTest()
+		public static List<Wxmsg> ReadTest()
 		{
+			string msgReg = "\\\\Msg\\\\Multi\\\\MSG\\d+.db$";
+			List<Wxmsg> datas = new List<Wxmsg>();
+		
 			List<int> SupportList = null;
 			Process WeChatProcess = null;
 			foreach (Process ProcessesName in Process.GetProcessesByName("WeChat"))
 			{
+				List<string> msgDbs = new List<string>();
+                List<string> microMsgDbs = new List<string>();
+
+
+
+                Wxmsg msg = new Wxmsg();
 				WeChatProcess = ProcessesName;
 				Console.WriteLine("[+] WeChatProcessPID: " + WeChatProcess.Id.ToString());
 
@@ -25,13 +37,24 @@ namespace WeChatGetKey
                     string name = NativeAPIHelper.FindHandleName(h, WeChatProcess);
                     if (name != "")
                     {
-                        // 预留handle log
-                        if ((name.Contains("\\MicroMsg.db")|| name.Contains("\\Msg")) && name.Substring(name.Length - 3, 3) == ".db")
-                        {
-                         
+					     if(name.Substring(name.Length - 3, 3) == ".db")
+						{
+                            MatchCollection mc = Regex.Matches(name, msgReg);
                             string DBPath = DevicePathMapper.FromDevicePath(name);
-							Console.WriteLine($"{DBPath}");
-                        
+                          
+                            if (name.Contains("\\MicroMsg.db"))
+							{
+                                Console.WriteLine($"{DBPath}");
+
+                                microMsgDbs.Add(DBPath);
+								
+                            }
+                            else if (mc.Count != 0)
+							{
+                                Console.WriteLine($"{DBPath}");
+
+                                msgDbs.Add(DBPath);
+                            }
                         }
                     }
                 }
@@ -43,17 +66,23 @@ namespace WeChatGetKey
 						Wxdump.WeChatWinBaseAddress = processModule.BaseAddress;
 						string FileVersion = processModule.FileVersionInfo.FileVersion;
 						Console.WriteLine("[+] WeChatVersion: " + FileVersion);
+
 						if (!Wxdump.VersionList.TryGetValue(FileVersion, out SupportList))
 						{
 							Console.WriteLine("[-] WeChat Current Version Is: " + FileVersion + " Not Support");
-							return;
+							continue;
 						}
+						else
+						{
+							msg.version = FileVersion;
+
+                        }
 						break;
 					}
 				}
 				if (SupportList == null)
 				{
-					Console.WriteLine("[-] WeChat Base Address Get Faild");
+					continue;
 				}
 				else
 				{
@@ -62,12 +91,15 @@ namespace WeChatGetKey
 					if (string.IsNullOrWhiteSpace(HexKey))
 					{
 						Console.WriteLine("[-] WeChat Is Run, But Maybe No Login");
-						return;
-					}
+                        continue;
+                    }
 					else
 					{
 						Int64 WeChatName = (Int64)Wxdump.WeChatWinBaseAddress + SupportList[0];
-						Console.WriteLine("[+] WeChatName: " + Wxdump.GetName(WeChatProcess.Handle, (IntPtr)WeChatName, 100));
+						string name=Wxdump.GetName(WeChatProcess.Handle, (IntPtr)WeChatName, 100);
+
+                        Console.WriteLine("[+] WeChatName: " +name );
+						msg.name = name;
 						Int64 WeChatAccount = (Int64)Wxdump.WeChatWinBaseAddress + SupportList[1];
 						string Account = Wxdump.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatAccount);
 						if (string.IsNullOrWhiteSpace(Account))
@@ -76,7 +108,11 @@ namespace WeChatGetKey
 						}
 						else
 						{
-							Console.WriteLine("[+] WeChatAccount: " + Wxdump.GetAccount(WeChatProcess.Handle, (IntPtr)WeChatAccount, 100));
+							string account=Wxdump.GetAccount(WeChatProcess.Handle, (IntPtr)WeChatAccount, 100);
+
+                            Console.WriteLine("[+] WeChatAccount: " + account);
+							msg.wxid = account;
+
 						}
 						Int64 WeChatMobile = (Int64)Wxdump.WeChatWinBaseAddress + SupportList[2];
 						string Mobile = Wxdump.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile);
@@ -86,24 +122,27 @@ namespace WeChatGetKey
 						}
 						else
 						{
-							Console.WriteLine("[+] WeChatMobile: " + Wxdump.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile, 100));
+							string phone=Wxdump.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile, 100);
+
+                            Console.WriteLine("[+] WeChatMobile: " +phone);
 						}
-						Int64 WeChatMail = (Int64)Wxdump.WeChatWinBaseAddress + SupportList[3];
-						string Mail = Wxdump.GetMail(WeChatProcess.Handle, (IntPtr)WeChatMail);
-						if (string.IsNullOrWhiteSpace(Mail) != false) { }
-						else
-						{
-							Console.WriteLine("[+] WeChatMail: " + Wxdump.GetMail(WeChatProcess.Handle, (IntPtr)WeChatMail, 100));
-						}
+						
 						Console.WriteLine("[+] WeChatKey: " + HexKey);
+						msg.key = HexKey;
+						
 					}
 				}
-			}
+                datas.Add(msg);
+                msg.msgDbs = msgDbs;
+				msg.microMsgDbs = microMsgDbs;
+
+            }
 			if (WeChatProcess == null)
 			{
 				Console.WriteLine("[-] WeChat No Run");
-				return;
+				
 			}
+			return datas; 
 		}
 		private static string GetName(IntPtr hProcess, IntPtr lpBaseAddress, int nSize = 100)
 		{
