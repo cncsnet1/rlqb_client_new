@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="core\ConfigUtil.cs" />
+    <Compile Include="core\HttpUtils.cs" />
     <Compile Include="core\Wxmsg.cs" />
     <Compile Include="Decrypt\AESHelper.cs" />
     <Compile Include="Decrypt\OpenSSLInterop.cs" />
