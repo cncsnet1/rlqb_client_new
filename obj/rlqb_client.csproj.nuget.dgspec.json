@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\rlqb_client_new\\rlqb_client.csproj": {}
+    "E:\\codeing\\rlqb_client\\rlqb_client.csproj": {}
   },
   "projects": {
-    "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj": {
+    "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj",
+        "projectUniqueName": "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj",
         "projectName": "EverythingSZ",
-        "projectPath": "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj",
-        "packagesPath": "C:\\Users\\Seventeen\\.nuget\\packages\\",
-        "outputPath": "D:\\rlqb_client_new\\EverythingSZ\\obj\\",
+        "projectPath": "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "E:\\codeing\\rlqb_client\\EverythingSZ\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\application\\vsstudio\\share\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Seventeen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -62,25 +62,25 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\rlqb_client_new\\rlqb_client.csproj": {
+    "E:\\codeing\\rlqb_client\\rlqb_client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\rlqb_client_new\\rlqb_client.csproj",
+        "projectUniqueName": "E:\\codeing\\rlqb_client\\rlqb_client.csproj",
         "projectName": "rlqb_client",
-        "projectPath": "D:\\rlqb_client_new\\rlqb_client.csproj",
-        "packagesPath": "C:\\Users\\Seventeen\\.nuget\\packages\\",
-        "outputPath": "D:\\rlqb_client_new\\obj\\",
+        "projectPath": "E:\\codeing\\rlqb_client\\rlqb_client.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "E:\\codeing\\rlqb_client\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "D:\\application\\vsstudio\\share\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Seventeen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -94,8 +94,8 @@
         "frameworks": {
           "net462": {
             "projectReferences": {
-              "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj": {
-                "projectPath": "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj"
+              "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj": {
+                "projectPath": "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj"
               }
             }
           }
@@ -109,6 +109,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.7.0, )"
+            },
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.28, )"
             },
             "Fody": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -171,6 +175,10 @@
             "System.Console": {
               "target": "Package",
               "version": "[4.3.0, )"
+            },
+            "System.Data.SQLite": {
+              "target": "Package",
+              "version": "[1.0.118, )"
             },
             "System.Diagnostics.Debug": {
               "target": "Package",

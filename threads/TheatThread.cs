@@ -63,10 +63,14 @@ namespace rlqb_client.threads
                         string dataJson = JsonConvert.SerializeObject(threatMessage);
                         string data = EncUtil.sendMessageEnc(dataJson);
                         MessageUtil.sendMessage(data);
+                        data = null;
+                        dataJson= null;
+                        threatMessage = null;
+                        msgs = null;
                     }
                 }
                 catch (Exception e)
-                {
+                { 
                     LogUtils.error("心跳维持失败，请联系管理员:" + e.Message);
                 }
                 

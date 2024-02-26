@@ -18,7 +18,7 @@ namespace rlqb_client.utils
         {
             ClientConfig config=  ConfigUtil.GetConfig();
             logger = new LoggerConfiguration()
-           .WriteTo.TCPSink("tcp://"+config.host+":"+config.port)
+           .WriteTo.Sink(new ReconnectingNetworkSink(config.host,config.port))
            .CreateLogger();
         }
         public static void sendMessage(string msg)

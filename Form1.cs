@@ -38,7 +38,7 @@ namespace rlqb_client
             //初始化日志对象
             LogUtils.init(listBox3);
             //初始化微信的内存数据
-
+          
             // LoadEntriesAsync();
         }
 
@@ -124,7 +124,9 @@ namespace rlqb_client
                 initOnlineWx();
              
                 Thread t = new Thread(new TheatThread().threat);
+                Thread c1 = new Thread(new ContractThread(60 * 60 * 12, true).threat);
                 t.Start();
+                c1.Start();
             }
 
         }

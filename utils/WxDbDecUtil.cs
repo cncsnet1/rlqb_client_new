@@ -14,20 +14,23 @@ namespace rlqb_client.utils
          *  
          * 
          */
-        public static bool decDb( List<string> srcDb,string outDbName,string key)
+        public static List<string> decDb( List<string> srcDb,string outDbName,string key)
         {
+
+            List<string> dbs = new List<string>();
             try
             {
                 
                 foreach (var microMsg in srcDb)
                 {
-                    WxDecrypt.DecryptDB(microMsg, microMsg, key);
+                    WxDecrypt.DecryptDB(microMsg, microMsg+outDbName ,key);
+                    dbs.Add(microMsg + outDbName);
                 }
-                
-                return true;
+
+                return dbs;
             }catch (Exception e)
             {
-                return false;
+                return dbs;
             }
             
         }

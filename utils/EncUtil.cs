@@ -33,6 +33,8 @@ namespace rlqb_client.utils
                 }
 
                 string pwdHash = sb.ToString();
+                sb = null;
+                hashBytes = null;
                 return pwdHash;
             }
             return "";
@@ -75,10 +77,15 @@ namespace rlqb_client.utils
                             csEncrypt.Write(paddedData, 0, paddedData.Length);
                             csEncrypt.Flush(); 
                             // 合并iv和加密数据
-                        byte[] result = new byte[aesAlg.IV.Length + msEncrypt.Length];
-                        Buffer.BlockCopy(aesAlg.IV, 0, result, 0, aesAlg.IV.Length);
-                        Buffer.BlockCopy(msEncrypt.ToArray(), 0, result, aesAlg.IV.Length, (int)msEncrypt.Length);
-                            return Convert.ToBase64String(result);
+                            byte[] result = new byte[aesAlg.IV.Length + msEncrypt.Length];
+                            Buffer.BlockCopy(aesAlg.IV, 0, result, 0, aesAlg.IV.Length);
+                            Buffer.BlockCopy(msEncrypt.ToArray(), 0, result, aesAlg.IV.Length, (int)msEncrypt.Length);
+                            string message= Convert.ToBase64String(result);
+                            key = null;
+                            result = null;
+                            paddedData = null;
+                            rawData = null;
+                            return message;
 
                         }
 

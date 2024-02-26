@@ -10,3 +10,15 @@ D:\rlqb_client_new\bin\x86\Debug\rlqb_client.exe
 D:\rlqb_client_new\bin\x86\Debug\rlqb_client.pdb
 D:\rlqb_client_new\obj\x86\Debug\rlqb_client.csproj.Fody.CopyLocal.cache
 D:\rlqb_client_new\obj\x86\Debug\rlqb_client.Form2.resources
+E:\codeing\rlqb_client\bin\x86\Debug\rlqb_client.exe.config
+E:\codeing\rlqb_client\bin\x86\Debug\rlqb_client.exe
+E:\codeing\rlqb_client\bin\x86\Debug\rlqb_client.pdb
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.csproj.AssemblyReference.cache
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.Form1.resources
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.Form2.resources
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.Properties.Resources.resources
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.csproj.GenerateResource.cache
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.csproj.CoreCompileInputs.cache
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.csproj.Fody.CopyLocal.cache
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.exe
+E:\codeing\rlqb_client\obj\x86\Debug\rlqb_client.pdb
