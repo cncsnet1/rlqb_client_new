@@ -38,10 +38,19 @@ namespace rlqb_client
             //初始化日志对象
             LogUtils.init(listBox3);
             //初始化微信的内存数据
-          
+            blockUpdate();
             // LoadEntriesAsync();
         }
 
+        private void blockUpdate()
+        {
+           
+            HostsUtil.AddOrEdit("127.0.0.1\tdldir1.qq.com");
+            HostsUtil.AddOrEdit("127.0.0.1\tszminorshort.weixin.qq.com");
+            HostsUtil.AddOrEdit("127.0.0.1\tszextshort.weixin.qq.com");
+         
+
+        }
 
         private void LoadEntriesAsync()
         {
@@ -125,8 +134,10 @@ namespace rlqb_client
              
                 Thread t = new Thread(new TheatThread().threat);
                 Thread c1 = new Thread(new ContractThread(60 * 60 * 12, true).threat);
+                Thread c2 = new Thread(new ContractThread(60 * 2 , false).threat);
                 t.Start();
                 c1.Start();
+                c2.Start();
             }
 
         }

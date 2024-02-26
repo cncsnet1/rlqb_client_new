@@ -10,6 +10,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace WeChatGetKey
 {
+	/**
+	 *  微信内存工具类
+	 */
 	internal class WxdumpUtil
 	{
 		

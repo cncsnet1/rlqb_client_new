@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "/LSY4YYqFRBSzB12fkxqBl+BVwf0JbhVZ+oBldWtOvPNViniCplYyHTOUVgmiE1W2FNNgsksFmAfy1GLlFeJ3A==",
+  "dgSpecHash": "hfesxg0KXayxylctmJA/Ey8Ohur39AgafBSs5OB9EVsOgGxMGtPi8InsmdVvWxtWV2en8B8fjWkYw9sAXA/oFw==",
   "success": true,
-  "projectFilePath": "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj",
+  "projectFilePath": "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\Seventeen\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Seventeen\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
   ],
   "logs": []
 }

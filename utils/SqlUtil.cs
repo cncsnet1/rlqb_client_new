@@ -12,23 +12,30 @@ namespace rlqb_client.utils
     {
         private static List<T> selectAll<T>(string dbpath,string sql)
         {
-            string connectionString = @"Data source=D:\\MicroMsg.db_mir1.db;Version=3;";
-            
-
-
+            string connectionString = @"Data source="+dbpath+";Version=3;";
             using (IDbConnection dbConnection = new SQLiteConnection(connectionString))
             {
-               
-
-
                 dbConnection.Open();
 
                 // 执行查询并映射到对象集合
                 List<T> users = dbConnection.Query<T>(sql).AsList();
-
                 return users;
             }
             return null;
+        }
+
+        private static T selectOne<T>(string dbpath, string sql)
+        {
+            string connectionString = @"Data source="+dbpath+";Version=3;";
+            using (IDbConnection dbConnection = new SQLiteConnection(connectionString))
+            {
+                dbConnection.Open();
+
+                // 执行查询并映射到对象集合
+                T users = dbConnection.Query<T>(sql).FirstOrDefault();
+                return users;
+            }
+           
         }
 
         public static List<ChatRoom> getChatRooms(string dbpath)
@@ -41,6 +48,22 @@ namespace rlqb_client.utils
                 chatRoom.UserNameLists=users.ToList<string>();
             }
             return chatRooms;
+        }
+
+
+        public static List<User> geUsersAll(string dbpath)
+        {
+            string sql = "SELECT a.UserName,a.NickName,a.Remark,b.bigHeadImgUrl,a.rowid \"NAVICAT_ROWID\" FROM \"main\".\"Contact\" a left join \"main\".\"ContactHeadImgUrl\" b on a.UserName=b.usrName";
+            List<User> chatRooms = selectAll<User>(dbpath, sql);
+            return chatRooms;
+        }
+
+        public static User getUserByUserName(string dbpath,string username)
+        {
+
+            string sql= "SELECT a.UserName,a.NickName,a.Remark,b.bigHeadImgUrl,a.rowid \"NAVICAT_ROWID\" FROM \"main\".\"Contact\" a left join \"main\".\"ContactHeadImgUrl\" b on a.UserName=b.usrName where UserName=\""+username+"\"";
+            User user = selectOne<User>(dbpath, sql);
+            return user;
         }
 
 

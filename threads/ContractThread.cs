@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using rlqb_client.core;
 using rlqb_client.utils;
+using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,16 @@ namespace rlqb_client.threads
     internal class ContractThread
     {
 
-        private string dbName;
+      
         private int secTime;
         private bool isComplete;
+
+        /**
+         * 这样同步过的微信_群_联系人的数据在增量的时候就不会重复同步了
+         * 只有全量的时候才会同步，而且全量的时候也会自动补充list中没有的
+         * 但是也要考虑list的容量遍变大，最大值范围等资源问题
+         */
+        private static List<string> contractMd5 = new List<string>();
 
         public ContractThread(int secTime,bool isComplete) {
             this.secTime = secTime;
@@ -33,13 +41,23 @@ namespace rlqb_client.threads
 
         public void threat()
         {
+           
+           if(!isComplete)
+            {
+                Thread.Sleep(1000*60*5);
+            }
+
            while (true)
             {
                 try
                 {
+                    
+                    //过去当前微信内存情况，原则上支持多开
                     List<Wxmsg> msgs = WxdumpUtil.GetWxmsgs();
                     foreach (Wxmsg msg in msgs)
                     {
+                        int userSum = 0;
+                        
                         List<string> microDbs= msg.microMsgDbs;
                         string outDbName = "";
                         if(this.isComplete)
@@ -57,22 +75,85 @@ namespace rlqb_client.threads
                             continue;
                         }
                         string microdb = decPath[0];
-                          List<ChatRoom> chatrooms= SqlUtil.getChatRooms(microdb);
-                            foreach (var item in chatrooms)
+                        List<ChatRoom> chatrooms= SqlUtil.getChatRooms(microdb);
+                        //开始循环- 群+用户 唯一。
+                        foreach (ChatRoom chatroom in chatrooms)
+                        {
+                           List<string>chatUsers= chatroom.UserNameLists;
+                           foreach(string cu in chatUsers)
                             {
-                                Console.WriteLine(item.NickName);
-                            Console.WriteLine(item.UserNameLists.Count + "");
-                            }
-                            chatrooms=null;
-                   
-                        
+                                
+                                    string md5Str = msg.wxid+"_"+ chatroom.ChatRoomName + "_" + cu;
+                                   
+                                    string md5=EncUtil.md5enCry(md5Str);
+                                    md5Str = null;
+                                if (contractMd5.Contains(md5))
+                                    {
+                                        if(!isComplete)
+                                        {
+                                            continue;
+                                         }
+                                        
+                                    }
+                                    else
+                                    {
+                                        contractMd5.Add(md5);
+                                    }
+                                
+                               
 
+                               userSum++;
+                               ContractMessage contractMessage= new ContractMessage();
+                               contractMessage.ChatRoomName = chatroom.ChatRoomName;
+                               contractMessage.UserName = cu;
+                               contractMessage.RoomDisplayName = chatroom.NickName + "（" + chatroom.ChatRoomName+"）";
+                               contractMessage.TalkWindow = chatroom.NickName + "（" + chatroom.ChatRoomName + "）";
+
+
+                               contractMessage.RoomRemark = chatroom.Remark;
+                               contractMessage.msg_type = "wx_contact";
+                               contractMessage.wx_id = cu;
+                                //开始循环发送赋值
+                                User user=  SqlUtil.getUserByUserName(microdb, cu);
+                                if (user != null)
+                                {
+                                    contractMessage.UserDisplayName = user.NickName + "（" + user.UserName + "）";
+                                    contractMessage.msg_sender = user.NickName + "（" + user.UserName + "）";
+                                    contractMessage.UserRemark = user.Remark;
+                                    if (user.BigHeadImgUrl != null && user.BigHeadImgUrl.Length > 5)
+                                    {
+                                       contractMessage.bigHeadImgUrl=user.BigHeadImgUrl;
+                                    }
+                                    else
+                                    {
+                                        contractMessage.bigHeadImgUrl = "#";
+                                    }
+                                }
+                                else
+                                {
+                                    contractMessage.msg_sender = "no_msg_sender";
+                             
+                                    contractMessage.bigHeadImgUrl = "#";
+                                }
+                                contractMessage.CreateTime=TimeUtil.getNowDateStr();
+                                contractMessage.ver = Form1.version;
+                                contractMessage.xpath = Form1.loginConfig.orgxpath;
+                                contractMessage.org = Form1.loginConfig.govName;
+                                contractMessage.WeChatAccount = msg.name + "（" + msg.wxid + "）";
+                                contractMessage.my_doc_id = chatroom.ChatRoomName.Replace("@", "-") + "-" + cu;
+                                string dataJson = JsonConvert.SerializeObject(contractMessage);
+                                string data = EncUtil.sendMessageEnc(dataJson);
+                                MessageUtil.sendMessage(data);
+                                contractMessage = null;
+                            }
+                        }
+                        LogUtils.info("["+(isComplete?"全量":"增量") +"] "+msg.name + "（" + msg.wxid + "）此次同步了" + chatrooms.Count + "个群, "+userSum+" 个成员");
 
                     }
                 }
                 catch (Exception e)
-                { 
-                    Console.WriteLine(e.ToString());
+                {
+                    LogUtils.error("[" + (isComplete ? "全量" : "增量") + "] 成员同步失败："+e.Message);
                 }
                 
                 Thread.Sleep(1000*secTime);

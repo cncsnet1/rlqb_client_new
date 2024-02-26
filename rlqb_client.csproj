@@ -111,13 +111,16 @@
     <Compile Include="Config.cs" />
     <Compile Include="core\ChatRoom.cs" />
     <Compile Include="core\ClientConfig.cs" />
+    <Compile Include="core\ContractMessage.cs" />
     <Compile Include="core\LoginConfig.cs" />
     <Compile Include="core\ThreatMessage.cs" />
     <Compile Include="core\Users.cs" />
     <Compile Include="threads\ContractThread.cs" />
+    <Compile Include="threads\MessageThread.cs" />
     <Compile Include="threads\TheatThread.cs" />
     <Compile Include="utils\ConfigUtil.cs" />
     <Compile Include="utils\EncUtil.cs" />
+    <Compile Include="utils\HostsUtil.cs" />
     <Compile Include="utils\HttpUtils.cs" />
     <Compile Include="core\Wxmsg.cs" />
     <Compile Include="Decrypt\AESHelper.cs" />

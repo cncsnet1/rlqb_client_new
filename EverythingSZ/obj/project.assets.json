@@ -180,23 +180,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "C:\\Users\\Seventeen\\.nuget\\packages\\": {},
     "D:\\application\\vsstudio\\share\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj",
+      "projectUniqueName": "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj",
       "projectName": "EverythingSZ",
-      "projectPath": "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "E:\\codeing\\rlqb_client\\EverythingSZ\\obj\\",
+      "projectPath": "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj",
+      "packagesPath": "C:\\Users\\Seventeen\\.nuget\\packages\\",
+      "outputPath": "D:\\rlqb_client_new\\EverythingSZ\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\application\\vsstudio\\share\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Seventeen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -241,7 +241,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -7,6 +7,9 @@ using WXDBDecrypt.NET;
 
 namespace rlqb_client.utils
 {
+    /**
+     * 微信数据解密
+     */
     internal class WxDbDecUtil
     {
 

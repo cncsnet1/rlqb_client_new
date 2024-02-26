@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace rlqb_client.utils
 {
+    /*
+     * 
+     * 时间处理，主要是对其时间格式与ES
+     */
     internal class TimeUtil
     {
         public static string getNowDateStr()
