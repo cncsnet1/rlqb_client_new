@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rlqb_client.core
 {
-    internal class Wxmsg
+    public class Wxmsg
     {
         public string name {  get; set; }
         public string wxid { get; set; }

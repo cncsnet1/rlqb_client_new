@@ -1,5 +1,8 @@
 ﻿using QueryEngine;
 using rlqb_client.core;
+using rlqb_client.threads;
+using rlqb_client.utils;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,15 +24,20 @@ namespace rlqb_client
     public partial class Form1 : Form
     {
         private List<FileAndDirectoryEntry> entries = new List<FileAndDirectoryEntry>();
-        List<Wxmsg> onlineAccount = new List<Wxmsg>();
+        public static List<Wxmsg> onlineAccount = new List<Wxmsg>();
+        public static LoginConfig loginConfig;
 
         public Form1()
         {
+            //日志对象
+
            
-            getConfig();
+            // 设置 Console.Write 输出到自定义的 InterceptingWriter
+           
             InitializeComponent();
-            initOnlineWx();
-          
+            //初始化日志对象
+            LogUtils.init(listBox3);
+            //初始化微信的内存数据
 
             // LoadEntriesAsync();
         }
@@ -78,46 +86,70 @@ namespace rlqb_client
 
                 foreach (var entry in filteredResult)
                 {
-                    textBox1.Invoke(new Action(() => textBox1.Text +=entry.FullFileName+"\r\n"));
+                  
                 }
             });
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SearchResultAsync("msg0");
-
-        }
-
-        private void initOnlineWx()
-        {
-            this.listBox2.Items.Clear();
-            this.onlineAccount= Wxdump.ReadTest();
-            foreach (var data in this.onlineAccount)
+            
+            string username= textBox2.Text;
+            string password = textBox3.Text;
+            LoginConfig loginConfigResult= HttpUtils.loginGetConfig(username, password);
+            
+            if (loginConfigResult != null)
             {
-                this.listBox2.Items.Add(data.name+"（"+data.wxid+"）");
-                List<string> microMsgDbs= data.microMsgDbs;
-                List<string> msgDbs = data.msgDbs;
-                foreach (var microMsg in microMsgDbs)
+                /**
+                 * 优先处理界面问题
+                 */
+                this.listBox1.Items.Clear();
+                foreach(var word in loginConfigResult.words)
                 {
-                    WxDecrypt.DecryptDB(microMsg, microMsg + "temp.db", data.key);
+                    this.listBox1.Items.Add(word);
                 }
-                foreach(var msg in msgDbs)
-                {
-                    WxDecrypt.DecryptDB(msg, msg + "temp.db", data.key);
+                //用户配置信息查看
+                this.textBox4.Text = "\r\n\r\n" + "用户信息：" + loginConfigResult.govName + "-" + loginConfigResult.name + "\r\n\r\n" +
+                    "监测频率（秒每次）：" + loginConfigResult.pcRoundTime + "\r\n\r\n" +
+                    "群聊过滤规则：" + (loginConfigResult.roomFlag==null||"".Equals(loginConfigResult.roomFlag)?"全部群聊":(loginConfigResult.roomFlag)) ;
+                this.button1.Enabled = false;
 
-                }
+                //初始化消息工具类
+                
+                loginConfig=loginConfigResult;
+                MessageUtil.init();
+               
 
-
+                //要开始工作，跑线程了
+                initOnlineWx();
+             
+                Thread t = new Thread(new TheatThread().threat);
+                t.Start();
             }
 
         }
 
-        private void getConfig()
+        /**
+         * 初始化/更新在线微信情况
+         */
+        private void initOnlineWx()
         {
-            ConfigUtil.GetValue("host");
-            ConfigUtil.GetValue("port");
+            this.listBox2.Invoke(new Action(() => {
+                this.listBox2.Items.Clear();
+            }));
+            
+            onlineAccount= WxdumpUtil.GetWxmsgs();
+            foreach (var data in onlineAccount)
+            {
+                this.Invoke(new Action(() => {
+                    this.listBox2.Items.Add(data.name + "（" + data.wxid + "）");
+
+                }));
+                
+            }
+
         }
+
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {

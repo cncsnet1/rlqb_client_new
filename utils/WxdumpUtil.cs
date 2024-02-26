@@ -10,14 +10,15 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace WeChatGetKey
 {
-	internal class Wxdump
+	internal class WxdumpUtil
 	{
 		
-		public static List<Wxmsg> ReadTest()
+		//获取微信内存信息
+		public static List<Wxmsg> GetWxmsgs()
 		{
+			//正则匹配，防止出现MSg0,Msg1.db的情况
 			string msgReg = "\\\\Msg\\\\Multi\\\\MSG\\d+.db$";
 			List<Wxmsg> datas = new List<Wxmsg>();
-		
 			List<int> SupportList = null;
 			Process WeChatProcess = null;
 			foreach (Process ProcessesName in Process.GetProcessesByName("WeChat"))
@@ -63,11 +64,11 @@ namespace WeChatGetKey
 					ProcessModule processModule = (ProcessModule)obj;
 					if (processModule.ModuleName == "WeChatWin.dll")
 					{
-						Wxdump.WeChatWinBaseAddress = processModule.BaseAddress;
+						WxdumpUtil.WeChatWinBaseAddress = processModule.BaseAddress;
 						string FileVersion = processModule.FileVersionInfo.FileVersion;
 						Console.WriteLine("[+] WeChatVersion: " + FileVersion);
 
-						if (!Wxdump.VersionList.TryGetValue(FileVersion, out SupportList))
+						if (!WxdumpUtil.VersionList.TryGetValue(FileVersion, out SupportList))
 						{
 							Console.WriteLine("[-] WeChat Current Version Is: " + FileVersion + " Not Support");
 							continue;
@@ -86,8 +87,8 @@ namespace WeChatGetKey
 				}
 				else
 				{
-					Int64 WeChatKey = (Int64)Wxdump.WeChatWinBaseAddress + SupportList[4];
-					string HexKey = Wxdump.GetHex(WeChatProcess.Handle, (IntPtr)WeChatKey);
+					Int64 WeChatKey = (Int64)WxdumpUtil.WeChatWinBaseAddress + SupportList[4];
+					string HexKey = WxdumpUtil.GetHex(WeChatProcess.Handle, (IntPtr)WeChatKey);
 					if (string.IsNullOrWhiteSpace(HexKey))
 					{
 						Console.WriteLine("[-] WeChat Is Run, But Maybe No Login");
@@ -95,34 +96,34 @@ namespace WeChatGetKey
                     }
 					else
 					{
-						Int64 WeChatName = (Int64)Wxdump.WeChatWinBaseAddress + SupportList[0];
-						string name=Wxdump.GetName(WeChatProcess.Handle, (IntPtr)WeChatName, 100);
+						Int64 WeChatName = (Int64)WxdumpUtil.WeChatWinBaseAddress + SupportList[0];
+						string name=WxdumpUtil.GetName(WeChatProcess.Handle, (IntPtr)WeChatName, 100);
 
                         Console.WriteLine("[+] WeChatName: " +name );
 						msg.name = name;
-						Int64 WeChatAccount = (Int64)Wxdump.WeChatWinBaseAddress + SupportList[1];
-						string Account = Wxdump.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatAccount);
+						Int64 WeChatAccount = (Int64)WxdumpUtil.WeChatWinBaseAddress + SupportList[1];
+						string Account = WxdumpUtil.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatAccount);
 						if (string.IsNullOrWhiteSpace(Account))
 						{
 							Console.WriteLine("[-] WeChatAccount: Maybe User Is No Set Account");
 						}
 						else
 						{
-							string account=Wxdump.GetAccount(WeChatProcess.Handle, (IntPtr)WeChatAccount, 100);
+							string account=WxdumpUtil.GetAccount(WeChatProcess.Handle, (IntPtr)WeChatAccount, 100);
 
                             Console.WriteLine("[+] WeChatAccount: " + account);
 							msg.wxid = account;
 
 						}
-						Int64 WeChatMobile = (Int64)Wxdump.WeChatWinBaseAddress + SupportList[2];
-						string Mobile = Wxdump.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile);
+						Int64 WeChatMobile = (Int64)WxdumpUtil.WeChatWinBaseAddress + SupportList[2];
+						string Mobile = WxdumpUtil.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile);
 						if (string.IsNullOrWhiteSpace(Mobile))
 						{
 							Console.WriteLine("[-] WeChatMobile: Maybe User Is No Binding Mobile");
 						}
 						else
 						{
-							string phone=Wxdump.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile, 100);
+							string phone=WxdumpUtil.GetMobile(WeChatProcess.Handle, (IntPtr)WeChatMobile, 100);
 
                             Console.WriteLine("[+] WeChatMobile: " +phone);
 						}
@@ -147,7 +148,7 @@ namespace WeChatGetKey
 		private static string GetName(IntPtr hProcess, IntPtr lpBaseAddress, int nSize = 100)
 		{
 			byte[] array = new byte[nSize];
-			if (Wxdump.ReadProcessMemory(hProcess, lpBaseAddress, array, nSize, 0) == 0)
+			if (WxdumpUtil.ReadProcessMemory(hProcess, lpBaseAddress, array, nSize, 0) == 0)
 			{
 				return "";
 			}
@@ -165,7 +166,7 @@ namespace WeChatGetKey
 		private static string GetAccount(IntPtr hProcess, IntPtr lpBaseAddress, int nSize = 100)
 		{
 			byte[] array = new byte[nSize];
-			if (Wxdump.ReadProcessMemory(hProcess, lpBaseAddress, array, nSize, 0) == 0)
+			if (WxdumpUtil.ReadProcessMemory(hProcess, lpBaseAddress, array, nSize, 0) == 0)
 			{
 				return "";
 			}
@@ -183,7 +184,7 @@ namespace WeChatGetKey
 		private static string GetMobile(IntPtr hProcess, IntPtr lpBaseAddress, int nSize = 100)
 		{
 			byte[] array = new byte[nSize];
-			if (Wxdump.ReadProcessMemory(hProcess, lpBaseAddress, array, nSize, 0) == 0)
+			if (WxdumpUtil.ReadProcessMemory(hProcess, lpBaseAddress, array, nSize, 0) == 0)
 			{
 				return "";
 			}
@@ -201,7 +202,7 @@ namespace WeChatGetKey
 		private static string GetMail(IntPtr hProcess, IntPtr lpBaseAddress, int nSize = 100)
 		{
 			byte[] array = new byte[nSize];
-			if (Wxdump.ReadProcessMemory(hProcess, lpBaseAddress, array, nSize, 0) == 0)
+			if (WxdumpUtil.ReadProcessMemory(hProcess, lpBaseAddress, array, nSize, 0) == 0)
 			{
 				return "";
 			}
@@ -219,18 +220,18 @@ namespace WeChatGetKey
         private static string GetHex(IntPtr hProcess, IntPtr lpBaseAddress)
         {
             byte[] array = new byte[4];
-            if (Wxdump.ReadProcessMemory(hProcess, lpBaseAddress, array, 4, 0) == 0)
+            if (WxdumpUtil.ReadProcessMemory(hProcess, lpBaseAddress, array, 4, 0) == 0)
             {
                 return "";
             }
             int num = 32;
             byte[] array2 = new byte[num];
             IntPtr lpBaseAddress2 = (IntPtr)(((int)array[3] << 24) + ((int)array[2] << 16) + ((int)array[1] << 8) + (int)array[0]);
-            if (Wxdump.ReadProcessMemory(hProcess, lpBaseAddress2, array2, num, 0) == 0)
+            if (WxdumpUtil.ReadProcessMemory(hProcess, lpBaseAddress2, array2, num, 0) == 0)
             {
                 return "";
             }
-            return Wxdump.bytes2hex(array2);
+            return WxdumpUtil.bytes2hex(array2);
         }
         //private static string GetHex(IntPtr hProcess, IntPtr lpBaseAddress)
         //{

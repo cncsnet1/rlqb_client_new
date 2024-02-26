@@ -38,5 +38,17 @@ namespace rlqb_client.core
                 throw ex;
           }
          }
+
+        public static ClientConfig GetConfig()
+        {
+            ClientConfig config = new ClientConfig();
+            config.host=GetValue("host");
+            config.port=GetValue("port");
+            config.onlineWords=GetValue("online_words");
+            config.onlyGroup=GetValue("only_group");
+            return config;
+            
+        }
+
     }
 }
