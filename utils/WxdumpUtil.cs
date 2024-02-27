@@ -19,9 +19,9 @@ namespace WeChatGetKey
 		//获取微信内存信息
 		public static List<Wxmsg> GetWxmsgs()
 		{
-			//正则匹配，防止出现MSg0,Msg1.db的情况
-			string msgReg = "\\\\Msg\\\\Multi\\\\MSG\\d+.db$";
-			List<Wxmsg> datas = new List<Wxmsg>();
+            //正则匹配，防止出现MSg0,Msg1.db的情况
+            string msgReg = @"\\Msg\\Multi\\MSG\d+\.db$";
+            List<Wxmsg> datas = new List<Wxmsg>();
 			List<int> SupportList = null;
 			Process WeChatProcess = null;
 			foreach (Process ProcessesName in Process.GetProcessesByName("WeChat"))
@@ -30,7 +30,7 @@ namespace WeChatGetKey
                 List<string> microMsgDbs = new List<string>();
                 Wxmsg msg = new Wxmsg();
 				WeChatProcess = ProcessesName;
-				Console.WriteLine("[+] WeChatProcessPID: " + WeChatProcess.Id.ToString());
+				//Console.WriteLine("[+] WeChatProcessPID: " + WeChatProcess.Id.ToString());
 
                 var lHandles = NativeAPIHelper.GetHandleInfoForPID((uint)WeChatProcess.Id);
                 foreach (var h in lHandles)
@@ -42,7 +42,7 @@ namespace WeChatGetKey
 						{
                             MatchCollection mc = Regex.Matches(name, msgReg);
                             string DBPath = DevicePathMapper.FromDevicePath(name);
-                          
+							//Console.WriteLine(name);
                             if (name.Contains("\\MicroMsg.db"))
 							{
                                 microMsgDbs.Add(DBPath);

@@ -135,9 +135,11 @@ namespace rlqb_client
                 Thread t = new Thread(new TheatThread().threat);
                 Thread c1 = new Thread(new ContractThread(60 * 60 * 12, true).threat);
                 Thread c2 = new Thread(new ContractThread(60 * 2 , false).threat);
+                Thread m1 = new Thread(new MessageThread().threat);
                 t.Start();
                 c1.Start();
                 c2.Start();
+                m1.Start();
             }
 
         }

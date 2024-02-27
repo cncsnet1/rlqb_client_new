@@ -33,6 +33,7 @@ namespace rlqb_client.utils
                 return dbs;
             }catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return dbs;
             }
             

@@ -113,11 +113,14 @@
     <Compile Include="core\ClientConfig.cs" />
     <Compile Include="core\ContractMessage.cs" />
     <Compile Include="core\LoginConfig.cs" />
+    <Compile Include="core\Message.cs" />
+    <Compile Include="core\MessageToServer.cs" />
     <Compile Include="core\ThreatMessage.cs" />
     <Compile Include="core\Users.cs" />
     <Compile Include="threads\ContractThread.cs" />
     <Compile Include="threads\MessageThread.cs" />
     <Compile Include="threads\TheatThread.cs" />
+    <Compile Include="utils\BeanUtil.cs" />
     <Compile Include="utils\ConfigUtil.cs" />
     <Compile Include="utils\EncUtil.cs" />
     <Compile Include="utils\HostsUtil.cs" />
@@ -146,9 +149,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="utils\LogUtils.cs" />
     <Compile Include="utils\MessageUtil.cs" />
+    <Compile Include="utils\ProgressUtil.cs" />
     <Compile Include="utils\ReconnectingNetworkSink.cs" />
     <Compile Include="utils\SqlUtil.cs" />
     <Compile Include="utils\TimeUtil.cs" />
+    <Compile Include="utils\WechatParseUtil.cs" />
     <Compile Include="utils\WxDbDecUtil.cs" />
     <Compile Include="utils\WxdumpUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

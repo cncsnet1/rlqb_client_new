@@ -16,7 +16,7 @@ namespace rlqb_client.core
          [DllImport("kernel32")]
          private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retval, int size, string filePath);
         //ini文件名称
-         private static string inifilename = "Config.ini";
+         private static string inifilename = "config\\Config.ini";
          //获取ini文件路径
          private static string inifilepath = Directory.GetCurrentDirectory() + "\\" + inifilename;
  

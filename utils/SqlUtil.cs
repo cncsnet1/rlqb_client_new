@@ -58,12 +58,21 @@ namespace rlqb_client.utils
             return chatRooms;
         }
 
-        public static User getUserByUserName(string dbpath,string username)
+        public static User getUserByUserName(string dbpath, string username)
         {
 
-            string sql= "SELECT a.UserName,a.NickName,a.Remark,b.bigHeadImgUrl,a.rowid \"NAVICAT_ROWID\" FROM \"main\".\"Contact\" a left join \"main\".\"ContactHeadImgUrl\" b on a.UserName=b.usrName where UserName=\""+username+"\"";
+            string sql = "SELECT a.UserName,a.NickName,a.Remark,b.bigHeadImgUrl,a.rowid \"NAVICAT_ROWID\" FROM \"main\".\"Contact\" a left join \"main\".\"ContactHeadImgUrl\" b on a.UserName=b.usrName where UserName='" + username + "'";
             User user = selectOne<User>(dbpath, sql);
             return user;
+
+
+        }
+
+        public static List<Message> getMessageByCreatetTime(string dbpath, long time)
+        {
+            string sql = "SELECT *,rowid \"NAVICAT_ROWID\" FROM \"main\".\"MSG\" WHERE \"CreateTime\" >= "+time+" and StrTalker  like '%@chatroom%' ORDER BY \"CreateTime\"";
+            List<Message> messages=selectAll<Message>(dbpath, sql);
+            return messages;
         }
 
 
