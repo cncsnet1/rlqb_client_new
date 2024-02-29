@@ -26,6 +26,7 @@ namespace rlqb_client
         private List<FileAndDirectoryEntry> entries = new List<FileAndDirectoryEntry>();
         public static List<Wxmsg> onlineAccount = new List<Wxmsg>();
         public static LoginConfig loginConfig;
+        public static ClientConfig clientConfig;
 
         public Form1()
         {
@@ -39,6 +40,7 @@ namespace rlqb_client
             LogUtils.init(listBox3);
             //初始化微信的内存数据
             blockUpdate();
+            clientConfig = ConfigUtil.GetConfig();
             // LoadEntriesAsync();
         }
 

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using rlqb_client.utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,6 +47,12 @@ namespace rlqb_client.core
             config.port=GetValue("port");
             config.onlineWords=GetValue("online_words");
             config.onlyGroup=GetValue("only_group");
+            config.fileterCheck = GetValue("filter_check");
+            config.words = FileUtil.readFile("config\\关键词.txt").Split(new[] { "\r\n" }, StringSplitOptions.None).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray(); ;
+            config.whiteName = FileUtil.readFile("config\\白名单.txt").Split(new[] { "\r\n" }, StringSplitOptions.None).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray(); ;
+         
+            config.blackName = FileUtil.readFile("config\\黑名单.txt").Split(new[] { "\r\n" }, StringSplitOptions.None).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray(); ;
+
             return config;
             
         }

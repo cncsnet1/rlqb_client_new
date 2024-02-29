@@ -54,9 +54,12 @@ namespace rlqb_client.threads
                     
                     //过去当前微信内存情况，原则上支持多开
                     List<Wxmsg> msgs = WxdumpUtil.GetWxmsgs();
+                    //获取验证方式
+                    string fileterCheck= Form1.clientConfig.fileterCheck;
                     foreach (Wxmsg msg in msgs)
                     {
                         int userSum = 0;
+                        int groupSum = 0;
                         
                         List<string> microDbs= msg.microMsgDbs;
                         string outDbName = "";
@@ -79,12 +82,26 @@ namespace rlqb_client.threads
                         //开始循环- 群+用户 唯一。
                         foreach (ChatRoom chatroom in chatrooms)
                         {
+                            if("1".Equals(fileterCheck))
+                            {
+                                string[] whiteNames=Form1.clientConfig.whiteName;
+                                bool nickNameCheck = whiteNames.Any(wn => chatroom.NickName.IndexOf(wn) != -1);
+                                bool remarkCheck = whiteNames.Any(wn => chatroom.Remark.IndexOf(wn) != -1);
+
+                                if (!nickNameCheck && !remarkCheck) continue;
+                            }
+                            else if ("2".Equals(fileterCheck))
+                            {
+                                string[]blackName = Form1.clientConfig.blackName;
+                                bool nickNameCheck = blackName.Any(wn => chatroom.NickName.IndexOf(wn) != -1);
+                                bool remarkCheck = blackName.Any(wn => chatroom.Remark.IndexOf(wn) != -1);
+                                if(nickNameCheck||remarkCheck) continue;
+                            }
+                        Console.WriteLine(chatroom.NickName + " " + chatroom.Remark);
                            List<string>chatUsers= chatroom.UserNameLists;
                            foreach(string cu in chatUsers)
                             {
-                                
                                     string md5Str = msg.wxid+"_"+ chatroom.ChatRoomName + "_" + cu;
-                                   
                                     string md5=EncUtil.md5enCry(md5Str);
                                     md5Str = null;
                                 if (contractMd5.Contains(md5))
@@ -93,7 +110,6 @@ namespace rlqb_client.threads
                                         {
                                             continue;
                                          }
-                                        
                                     }
                                     else
                                     {
@@ -138,16 +154,18 @@ namespace rlqb_client.threads
                                 contractMessage.CreateTime=TimeUtil.getNowDateStr();
                                 contractMessage.ver = Form1.version;
                                 contractMessage.xpath = Form1.loginConfig.orgxpath;
-                                contractMessage.org = Form1.loginConfig.govName;
+                                contractMessage.org = Form1.loginConfig.govName;    
                                 contractMessage.WeChatAccount = msg.name + "（" + msg.wxid + "）";
                                 contractMessage.my_doc_id = chatroom.ChatRoomName.Replace("@", "-") + "-" + cu;
                                 string dataJson = JsonConvert.SerializeObject(contractMessage);
                                 string data = EncUtil.sendMessageEnc(dataJson);
                                 MessageUtil.sendMessage(data);
                                 contractMessage = null;
+                                
                             }
+                            groupSum++;
                         }
-                        LogUtils.info("["+(isComplete?"全量":"增量") +"] "+msg.name + "（" + msg.wxid + "）此次同步了" + chatrooms.Count + "个群, "+userSum+" 个成员");
+                        LogUtils.info("["+(isComplete?"全量":"增量") +"] "+msg.name + "（" + msg.wxid + "）此次同步了" + groupSum + "个群, "+userSum+" 个成员");
 
                     }
                 }

@@ -68,6 +68,17 @@ namespace rlqb_client.utils
 
         }
 
+
+        public static ChatRoom getgroupByUserName(string dbpath, string username)
+        {
+
+            string sql = "SELECT a.UserName,a.NickName,a.Remark,b.bigHeadImgUrl,a.rowid \"NAVICAT_ROWID\" FROM \"main\".\"Contact\" a left join \"main\".\"ContactHeadImgUrl\" b on a.UserName=b.usrName where UserName='" + username + "'";
+            ChatRoom user = selectOne<ChatRoom>(dbpath, sql);
+            return user;
+
+
+        }
+
         public static List<Message> getMessageByCreatetTime(string dbpath, long time)
         {
             string sql = "SELECT *,rowid \"NAVICAT_ROWID\" FROM \"main\".\"MSG\" WHERE \"CreateTime\" >= "+time+" and StrTalker  like '%@chatroom%' ORDER BY \"CreateTime\"";

@@ -16,7 +16,7 @@ namespace rlqb_client.utils
 
         public static void init()
         {
-            ClientConfig config=  ConfigUtil.GetConfig();
+            ClientConfig config = Form1.clientConfig;
             logger = new LoggerConfiguration()
            .WriteTo.Sink(new ReconnectingNetworkSink(config.host,config.port))
            .CreateLogger();

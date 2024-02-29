@@ -1,4 +1,5 @@
 ﻿using rlqb_client.core;
+using rlqb_client.utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,12 +18,11 @@ namespace rlqb_client
         public Form2()
         {
             InitializeComponent();
-            string host= ConfigUtil.GetValue("host");
-            string port=ConfigUtil.GetValue("port");
-            this.textBox1.Text = host;
-            this.textBox2.Text = port;
-            string online_workds= ConfigUtil.GetValue("online_words");
-            string only_group= ConfigUtil.GetValue("only_group");
+            ClientConfig clientConfig= Form1.clientConfig;
+            this.textBox1.Text = clientConfig.host;
+            this.textBox2.Text = clientConfig.port;
+            string online_workds= clientConfig.onlineWords;
+            string only_group= clientConfig.onlyGroup;
 
             string filter_check = ConfigUtil.GetValue("filter_check");
 
@@ -62,6 +62,17 @@ namespace rlqb_client
                 radioButton5.Checked = false;
             }
             
+            //本地关键词
+           string gjc= FileUtil.readFile("config\\关键词.txt");
+            Console.WriteLine(gjc);
+            textBox5.Text= gjc;
+
+            string whiteFile = FileUtil.readFile("config\\白名单.txt");
+            textBox4.Text= whiteFile;
+
+            string blackFile = FileUtil.readFile("config\\黑名单.txt");
+            textBox3.Text =blackFile;
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -97,6 +108,14 @@ namespace rlqb_client
             {
                 ConfigUtil.SetValue("filter_check", "2");
             }
+
+           
+            FileUtil.writeFile("config\\关键词.txt", textBox5.Text);
+            FileUtil.writeFile("config\\白名单.txt", textBox4.Text);
+            FileUtil.writeFile("config\\黑名单.txt", textBox3.Text);
+
+            Form1.clientConfig = ConfigUtil.GetConfig();
+
             MessageBox.Show("保存成功");
         }
     }

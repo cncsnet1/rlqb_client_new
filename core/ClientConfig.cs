@@ -9,7 +9,7 @@ namespace rlqb_client.core
     /**
      * 客户端配置文件配置类
      */
-    internal class ClientConfig
+    public class ClientConfig
     {
         //服务器地址
         public string host {  get; set; }
@@ -24,5 +24,15 @@ namespace rlqb_client.core
         //只抓群消息
 
         public string onlyGroup { get; set;}
+
+        public string[] whiteName {  get; set; }
+
+        public string[] blackName {  get; set; }
+
+        public string[] words { get; set;}
+
+        public string fileterCheck {  get; set; }
+
+       
     }
 }

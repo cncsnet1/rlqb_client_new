@@ -68,24 +68,30 @@ namespace rlqb_client.threads
                         //开始循环消息db开始查询数据
                         foreach (string msgDbPath in decMsgDbPath)
                         {
-                          List<Message> messages=  SqlUtil.getMessageByCreatetTime(msgDbPath, progressIndex);
+                           List<Message> messages=  SqlUtil.getMessageByCreatetTime(msgDbPath, progressIndex);
+                           
                            foreach(Message message in messages)
                             {
-                               MessageToServer messageToServer = new MessageToServer();
+
+                                //查询群聊天对象
+                               ChatRoom group= SqlUtil.getgroupByUserName(decMirDbPath[0],message.StrTalker);
+                               if (group == null) continue;
+
+                                //获取发送者的Id
+                                string wxId = WechatParseUtil.getSendUserWxId(message.BytesExtra);
+                                //查询发送者对象
+                                User sendUser = SqlUtil.getUserByUserName(decMirDbPath[0], wxId);
+
+
+
+                                MessageToServer messageToServer = new MessageToServer();
                                 BeanUtil.CopyProperties(message, messageToServer);
                                 
                                 messageToServer.msg_type = "群消息";
                                 messageToServer.ChatRoomName = message.StrTalker;
-                                //获取发送者的Id
-                                string wxId=WechatParseUtil.getSendUserWxId(message.BytesExtra);
-
-
-                                User sendUser= SqlUtil.getUserByUserName(decMirDbPath[0],wxId);
-                                
                                 if(sendUser!=null)
                                 {
                                   
-                                   
                                 }
                                 else
                                 {

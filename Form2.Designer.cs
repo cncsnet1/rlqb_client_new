@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TextBox textBox5;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -55,7 +54,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -106,7 +105,7 @@
             this.radioButton1.Size = new System.Drawing.Size(47, 16);
             this.radioButton1.TabIndex = 4;
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "开启";
+            this.radioButton1.Text = "在线";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // radioButton2
@@ -117,7 +116,7 @@
             this.radioButton2.Size = new System.Drawing.Size(47, 16);
             this.radioButton2.TabIndex = 5;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "关闭";
+            this.radioButton2.Text = "本地";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -127,7 +126,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 6;
-            this.label3.Text = "在线词库";
+            this.label3.Text = "关键词库";
             // 
             // button1
             // 
@@ -144,10 +143,10 @@
             this.radioButton4.AutoSize = true;
             this.radioButton4.Location = new System.Drawing.Point(106, 13);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(35, 16);
+            this.radioButton4.Size = new System.Drawing.Size(47, 16);
             this.radioButton4.TabIndex = 9;
             this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "是";
+            this.radioButton4.Text = "群聊";
             this.radioButton4.UseVisualStyleBackColor = true;
             // 
             // radioButton5
@@ -155,10 +154,10 @@
             this.radioButton5.AutoSize = true;
             this.radioButton5.Location = new System.Drawing.Point(185, 11);
             this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(35, 16);
+            this.radioButton5.Size = new System.Drawing.Size(77, 16);
             this.radioButton5.TabIndex = 10;
             this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "否";
+            this.radioButton5.Text = "群聊+私聊";
             this.radioButton5.UseVisualStyleBackColor = true;
             // 
             // label4
@@ -166,9 +165,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(11, 15);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(89, 12);
+            this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 11;
-            this.label4.Text = "是否仅入库群聊";
+            this.label4.Text = "采集范围";
             // 
             // panel1
             // 
@@ -248,11 +247,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(39, 10);
+            this.label5.Location = new System.Drawing.Point(4, 10);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.Size = new System.Drawing.Size(125, 12);
             this.label5.TabIndex = 3;
-            this.label5.Text = "采集规则";
+            this.label5.Text = "采集规则（优先备注）";
             // 
             // radioButton7
             // 
@@ -308,7 +307,7 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(textBox5);
+            this.groupBox5.Controls.Add(this.textBox5);
             this.groupBox5.Location = new System.Drawing.Point(12, 124);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(352, 100);
@@ -318,11 +317,12 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new System.Drawing.Point(6, 20);
-            textBox5.Multiline = true;
-            textBox5.Name = "textBox5";
-            textBox5.Size = new System.Drawing.Size(340, 74);
-            textBox5.TabIndex = 0;
+            this.textBox5.Location = new System.Drawing.Point(7, 21);
+            this.textBox5.Multiline = true;
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox5.Size = new System.Drawing.Size(339, 73);
+            this.textBox5.TabIndex = 0;
             // 
             // Form2
             // 
@@ -385,5 +385,6 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox textBox5;
     }
 }

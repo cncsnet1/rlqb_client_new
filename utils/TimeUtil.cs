@@ -18,12 +18,13 @@ namespace rlqb_client.utils
             DateTime nowUtc = DateTime.UtcNow;
 
             // 设置中国时区
-            TimeZoneInfo chinaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
-            DateTime nowChina = TimeZoneInfo.ConvertTimeFromUtc(nowUtc, chinaTimeZone);
+           // TimeZoneInfo chinaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+           // DateTime nowChina = TimeZoneInfo.ConvertTimeFromUtc(nowUtc, chinaTimeZone);
 
             // 格式化日期时间字符串
             string formatStr = "yyyy-MM-ddTHH:mm:ss.fffZ";
-            string chinaFormat = nowChina.ToString(formatStr);
+            string chinaFormat = nowUtc.ToString(formatStr);
+           // Console.WriteLine(chinaFormat);
             return chinaFormat;
         }
         public void main() { 
