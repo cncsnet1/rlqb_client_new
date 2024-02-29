@@ -73,6 +73,7 @@ namespace rlqb_client.threads
                             {
                                MessageToServer messageToServer = new MessageToServer();
                                 BeanUtil.CopyProperties(message, messageToServer);
+                                
                                 messageToServer.msg_type = "群消息";
                                 messageToServer.ChatRoomName = message.StrTalker;
                                 //获取发送者的Id
@@ -84,13 +85,29 @@ namespace rlqb_client.threads
                                 if(sendUser!=null)
                                 {
                                   
-                                    
-
+                                   
                                 }
                                 else
                                 {
 
                                 }
+                                //群内发言
+                                if (messageToServer.IsSender == 0)
+                                {
+                                    messageToServer.msg_sender = messageToServer.StrTalker + "（" + wxId + "）";
+                                    messageToServer.msg_receiver = msg.name;
+                                }
+                                else
+                                {
+                                    //侦查员发言
+                                    messageToServer.wx_id = "--警员微信发言--";
+                                    messageToServer.msg_sender = msg.name;
+                                    messageToServer.msg_receiver = messageToServer.StrTalker;
+                                }
+
+                                string content= messageToServer.StrContent;
+                                string pinyinContent= WechatParseUtil.GetPinyin(content);
+                                Console.WriteLine(pinyinContent);
                                 progressIndex = message.CreateTime;
                                 messageLine++;
                             }

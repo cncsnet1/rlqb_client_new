@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,24 @@ namespace rlqb_client
             this.textBox2.Text = port;
             string online_workds= ConfigUtil.GetValue("online_words");
             string only_group= ConfigUtil.GetValue("only_group");
+
+            string filter_check = ConfigUtil.GetValue("filter_check");
+
+
+            if ("0".Equals(filter_check))
+            {
+                radioButton7.Checked = true;
+                
+            }
+            else if ("1".Equals(filter_check))
+            {
+                radioButton3.Checked = true;
+            }
+            else
+            {
+                radioButton6.Checked = true;
+            }
+
             if ("0".Equals(online_workds) )
             {
                 radioButton2.Checked = true;
@@ -42,6 +61,7 @@ namespace rlqb_client
                 radioButton4.Checked = true;
                 radioButton5.Checked = false;
             }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -63,6 +83,19 @@ namespace rlqb_client
             else if (radioButton5.Checked)
             {
                 ConfigUtil.SetValue("only_group", "0");
+            }
+
+            if (radioButton7.Checked)
+            {
+                ConfigUtil.SetValue("filter_check", "0");
+            }
+            else if (radioButton3.Checked)
+            {
+                ConfigUtil.SetValue("filter_check", "1");
+            }
+            else if (radioButton6.Checked)
+            {
+                ConfigUtil.SetValue("filter_check", "2");
             }
             MessageBox.Show("保存成功");
         }

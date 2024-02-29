@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Pinyin4net.Format;
+using Pinyin4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +29,29 @@ namespace rlqb_client.utils
                 return result;
             }
             return "";
+        }
+
+
+        public static string GetPinyin(string chineseCharacter)
+        {
+            HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+            format.ToneType=(HanyuPinyinToneType.WITHOUT_TONE);
+            string data = "";
+            foreach(char  ch in chineseCharacter)
+            {
+                string[] pinyinArray = PinyinHelper.ToHanyuPinyinStringArray(ch, format);
+
+                if (pinyinArray != null && pinyinArray.Length > 0)
+                {
+                    // 取第一个拼音
+
+                    data += pinyinArray[0] + " ";
+                }
+            }
+            // 转换为拼音数组
+            
+
+            return data;
         }
     }
 }
