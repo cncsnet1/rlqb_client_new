@@ -87,9 +87,9 @@ namespace rlqb_client.core
                 loginConfig.openOcr = (int)data["open_ocr"];
                 loginConfig.orgxpath = (string)data["xpath"];
                 loginConfig.roomFlag = (string)data["room_flag"];
-
+                loginConfig.name = (string)data["name"];
                 //判断是使用在线关键词库还是用这个
-                if("1".Equals(config.onlineWords))
+                if ("1".Equals(config.onlineWords))
                 {
                     string wordsStr = (string)data["words"];
                     //这个位置记录一下要改的 套了两层words

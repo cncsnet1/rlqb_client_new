@@ -241,6 +241,8 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "人力情报研判平台客户端 v";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

@@ -50,7 +50,7 @@ namespace WeChatGetKey
                             }
                             else if (mc.Count != 0)
 							{
-                                msgDbs.Add(DBPath);
+                                msgDbs.Insert(0,DBPath);
                             }
                         }
                     }

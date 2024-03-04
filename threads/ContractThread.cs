@@ -93,11 +93,11 @@ namespace rlqb_client.threads
                             else if ("2".Equals(fileterCheck))
                             {
                                 string[]blackName = Form1.clientConfig.blackName;
-                                bool nickNameCheck = blackName.Any(wn => chatroom.NickName.IndexOf(wn) != -1);
-                                bool remarkCheck = blackName.Any(wn => chatroom.Remark.IndexOf(wn) != -1);
+                                bool nickNameCheck = blackName.Any(wn =>chatroom.NickName!=null&& chatroom.NickName.IndexOf(wn) != -1);
+                                bool remarkCheck = blackName.Any(wn =>  chatroom.Remark!=null&& chatroom.Remark.IndexOf(wn) != -1);
                                 if(nickNameCheck||remarkCheck) continue;
                             }
-                        Console.WriteLine(chatroom.NickName + " " + chatroom.Remark);
+                        //Console.WriteLine(chatroom.NickName + " " + chatroom.Remark);
                            List<string>chatUsers= chatroom.UserNameLists;
                            foreach(string cu in chatUsers)
                             {

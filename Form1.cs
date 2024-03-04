@@ -173,6 +173,13 @@ namespace rlqb_client
             Form2 form2 = new Form2(); 
             form2.ShowDialog();
         }
+
+      
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 
 

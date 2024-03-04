@@ -8831,24 +8831,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "C:\\Users\\Seventeen\\.nuget\\packages\\": {},
     "D:\\application\\vsstudio\\share\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\codeing\\rlqb_client\\rlqb_client.csproj",
+      "projectUniqueName": "D:\\rlqb_client_new\\rlqb_client.csproj",
       "projectName": "rlqb_client",
-      "projectPath": "E:\\codeing\\rlqb_client\\rlqb_client.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "E:\\codeing\\rlqb_client\\obj\\",
+      "projectPath": "D:\\rlqb_client_new\\rlqb_client.csproj",
+      "packagesPath": "C:\\Users\\Seventeen\\.nuget\\packages\\",
+      "outputPath": "D:\\rlqb_client_new\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "D:\\application\\vsstudio\\share\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Seventeen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -8862,8 +8862,8 @@
       "frameworks": {
         "net462": {
           "projectReferences": {
-            "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj": {
-              "projectPath": "E:\\codeing\\rlqb_client\\EverythingSZ\\EverythingSZ.csproj"
+            "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj": {
+              "projectPath": "D:\\rlqb_client_new\\EverythingSZ\\EverythingSZ.csproj"
             }
           }
         }

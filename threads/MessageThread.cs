@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using rlqb_client.core;
 using rlqb_client.utils;
 using System;
@@ -25,7 +26,16 @@ namespace rlqb_client.threads
             while (true)
             {
 
-                List<string> words = Form1.loginConfig.words;
+                List<string> words = null;
+                if(Form1.clientConfig.onlineWords=="1")
+                {
+                    words= Form1.loginConfig.words;
+                }
+                else
+                {
+                    words =Form1.clientConfig.words.ToList();
+                }
+
                 int openOcr = Form1.loginConfig.openOcr;
                 int pcRoundTime = Form1.loginConfig.pcRoundTime;
                 int homophonic= Form1.loginConfig.homophonic;
@@ -68,38 +78,51 @@ namespace rlqb_client.threads
                         //开始循环消息db开始查询数据
                         foreach (string msgDbPath in decMsgDbPath)
                         {
-                           List<Message> messages=  SqlUtil.getMessageByCreatetTime(msgDbPath, progressIndex);
+                           
+                            List<Message> messages=  SqlUtil.getMessageByCreatetTime(msgDbPath, progressIndex);
                            
                            foreach(Message message in messages)
                             {
 
                                 //查询群聊天对象
                                ChatRoom group= SqlUtil.getgroupByUserName(decMirDbPath[0],message.StrTalker);
-                               if (group == null) continue;
+                               if (group == null)
+                                {
+                                    Console.WriteLine(message.StrTalker);
+                                    continue;
+                                }
+
+
+
+                               List<string> send_words= new List<string>();
 
                                 //获取发送者的Id
                                 string wxId = WechatParseUtil.getSendUserWxId(message.BytesExtra);
                                 //查询发送者对象
                                 User sendUser = SqlUtil.getUserByUserName(decMirDbPath[0], wxId);
 
-
-
                                 MessageToServer messageToServer = new MessageToServer();
                                 BeanUtil.CopyProperties(message, messageToServer);
                                 
                                 messageToServer.msg_type = "群消息";
                                 messageToServer.ChatRoomName = message.StrTalker;
+                                messageToServer.WeChatAccount = msg.name + "（" + msg.wxid + "）";
+
+
                                 if(sendUser!=null)
                                 {
-                                  
+                                    messageToServer.StrTalker = sendUser.NickName;
                                 }
                                 else
                                 {
-
+                                    messageToServer.StrTalker = "";
                                 }
+                                messageToServer.TalkWindow = group.NickName+"（"+messageToServer.ChatRoomName+"）";
+
                                 //群内发言
                                 if (messageToServer.IsSender == 0)
                                 {
+                                    messageToServer.wx_id = wxId;
                                     messageToServer.msg_sender = messageToServer.StrTalker + "（" + wxId + "）";
                                     messageToServer.msg_receiver = msg.name;
                                 }
@@ -112,14 +135,44 @@ namespace rlqb_client.threads
                                 }
 
                                 string content= messageToServer.StrContent;
-                                string pinyinContent= WechatParseUtil.GetPinyin(content);
-                                Console.WriteLine(pinyinContent);
+                                string pinyinContent = "";
+                                //先判断是否开启同音词匹配
+                                if (homophonic == 1)
+                                {
+                                    pinyinContent = WechatParseUtil.GetPinyin(content);
+                                }
+
+                                //跟关键词做对比
+                                foreach(string word in words)
+                                {
+                                    if(content!=""&& content.IndexOf(word) != -1&& !send_words.Contains(word))
+                                    {
+                                            send_words.Add(word);
+                                        
+                                    }else if(homophonic==1)
+                                    {
+                                      string wordPinyin=   WechatParseUtil.GetPinyin(word);
+                                      if( pinyinContent!=""&& pinyinContent.IndexOf(wordPinyin) != -1&&!send_words.Contains(word))
+                                      { 
+                                            send_words.Add(word);
+                                      }
+                                    }
+                                }
+                                messageToServer.org = Form1.loginConfig.govName;
+                                messageToServer.ver = Form1.version;
+                                messageToServer.xpath = Form1.loginConfig.orgxpath;
+                                messageToServer.my_doc_id = EncUtil.md5enCry(messageToServer.WeChatAccount+messageToServer.intCreateTime+messageToServer.StrTalker+messageToServer.wx_id+message.StrContent);
+                                messageToServer.cloud_word=send_words;
+                                string dataJson = JsonConvert.SerializeObject(messageToServer);
+                                string data = EncUtil.sendMessageEnc(dataJson);
+                                MessageUtil.sendMessage(data);
                                 progressIndex = message.CreateTime;
                                 messageLine++;
+                                
                             }
                         }
 
-
+                        
                         ProgressUtil.addOrEdit(msg.wxid, progressIndex);
                         LogUtils.info(msg.name + "（" + msg.wxid + "）" + "此次同步群消息 "+messageLine+" 条");
                     }

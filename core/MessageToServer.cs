@@ -22,9 +22,9 @@ namespace rlqb_client.core
 
         public int intCreateTime { get; set; }
 
-        public string cloud_word { get; set; }
+        public List<string> cloud_word { get; set; }
 
-        public string area_word { get; set; }
+        public List<string> area_word { get; set; }
 
         public string org { get; set; }
 

@@ -29,7 +29,7 @@ namespace rlqb_client.utils
                     WxDecrypt.DecryptDB(microMsg, microMsg+outDbName ,key);
                     dbs.Add(microMsg + outDbName);
                 }
-
+                dbs.Sort();
                 return dbs;
             }catch (Exception e)
             {

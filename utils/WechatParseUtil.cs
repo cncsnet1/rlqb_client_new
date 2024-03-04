@@ -43,7 +43,7 @@ namespace rlqb_client.utils
 
                 if (pinyinArray != null && pinyinArray.Length > 0)
                 {
-                    // 取第一个拼音
+                    // 取第一个拼音 
 
                     data += pinyinArray[0] + " ";
                 }
