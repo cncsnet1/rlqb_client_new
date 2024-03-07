@@ -88,7 +88,6 @@ namespace rlqb_client.threads
                                ChatRoom group= SqlUtil.getgroupByUserName(decMirDbPath[0],message.StrTalker);
                                if (group == null)
                                 {
-                                    Console.WriteLine(message.StrTalker);
                                     continue;
                                 }
 
@@ -133,7 +132,7 @@ namespace rlqb_client.threads
                                     messageToServer.msg_sender = msg.name;
                                     messageToServer.msg_receiver = messageToServer.StrTalker;
                                 }
-
+                                messageToServer.StrContent = WechatParseUtil.getWechatContent(messageToServer);
                                 string content= messageToServer.StrContent;
                                 string pinyinContent = "";
                                 //先判断是否开启同音词匹配
