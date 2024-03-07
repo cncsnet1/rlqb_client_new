@@ -10,11 +10,15 @@ using System.Xml;
 using System.Security.Policy;
 using LZ4;
 using rlqb_client.core;
+using System.Runtime.InteropServices;
 
 namespace rlqb_client.utils
 {
     internal class WechatParseUtil
     {
+
+        [DllImport("liblz4.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int LZ4_decompress_safe(byte[] source, byte[] dest, int compressedSize, int maxDecompressedSize);
 
 
         /**
@@ -65,6 +69,11 @@ namespace rlqb_client.utils
             return data;
         }
 
+        private static string RemoveInvalidXmlChars(string text)
+        {
+            return new string(text.Where(c => XmlConvert.IsXmlChar(c)).ToArray());
+        }
+
         public static String getWechatContent(MessageToServer message)
         {
 
@@ -90,18 +99,47 @@ namespace rlqb_client.utils
                 {
                     return "【人力情报图片消息识别：待完善】";
                 }
-                else if (message.Type == 49 && message.SubType==19)
+                else if (message.Type == 49)
                 {
                     byte[] compressedData = message.CompressContent;
 
-                    byte[] decompressedData = LZ4.LZ4Codec.Unwrap(compressedData, 0x10004);
+                    // 假设 row 是包含压缩数据的 DataRow 或类似对象
+                 
 
-                    // 去除末尾的一个字节
-                    byte[] trimmedData = new byte[decompressedData.Length - 1];
-                    Array.Copy(decompressedData, trimmedData, trimmedData.Length);
+                    // 假设您知道未压缩数据的大小（替换为实际值）
+                    int uncompressedSize = 0x10004;
 
-                    // 将字节数组解码为 UTF-8 字符串
-                    string utf8String = Encoding.UTF8.GetString(trimmedData);
+                    // 创建用于存储解压缩后数据的字节数组
+                    byte[] decompressedData = new byte[uncompressedSize];
+
+                    // 使用 LZ4 原生 C 函数进行解压缩
+                    int result = LZ4_decompress_safe(compressedData, decompressedData, compressedData.Length, uncompressedSize);
+
+                    if (result< 0)
+                    {
+                        return message.StrContent;
+                    }
+
+                        // 解压缩成功
+                    string resultString = System.Text.Encoding.UTF8.GetString(decompressedData);
+                    resultString =resultString.Substring(0, resultString.IndexOf("</msg>") + 6);
+                    if(message.SubType==6)
+                    {
+                       string fileName= getChatFileName(resultString);
+                       if(Form1.loginConfig.openOcr==1)
+                        {
+                            
+                        }
+                        else
+                        {
+                            return "【人力情报文件】" + fileName;
+                        }
+                    }else if(message.SubType==7)
+                    {
+
+                    }
+
+
 
 
                 }
@@ -156,6 +194,15 @@ namespace rlqb_client.utils
             url = url.Replace("&amp;", "");
             return "【人力情报表情包转换】" + url;
 
+        }
+        private static string getChatFileName(string content)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(content.Substring(0,content.Length));
+            XmlNode titleNode= xmlDocument.SelectSingleNode("/msg/appmsg/title");
+            if (titleNode == null) return content;
+            
+            return titleNode.InnerText;
         }
     }
 }
