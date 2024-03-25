@@ -69,10 +69,6 @@ namespace rlqb_client.utils
             return data;
         }
 
-        private static string RemoveInvalidXmlChars(string text)
-        {
-            return new string(text.Where(c => XmlConvert.IsXmlChar(c)).ToArray());
-        }
 
         public static String getWechatContent(MessageToServer message)
         {
@@ -134,8 +130,9 @@ namespace rlqb_client.utils
                         {
                             return "【人力情报文件】" + fileName;
                         }
-                    }else if(message.SubType==7)
+                    }else if(message.SubType==19)
                     {
+                        getForwardContent   (resultString);
 
                     }
 
@@ -203,6 +200,30 @@ namespace rlqb_client.utils
             if (titleNode == null) return content;
             
             return titleNode.InnerText;
+        }
+
+        private static string getForwardContent(string content)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(content.Substring(0, content.Length));
+            XmlNode appmsg = xmlDocument.SelectSingleNode("/msg/appmsg");
+            if(appmsg == null) return content;
+            XmlNode recordinfo = appmsg.SelectSingleNode("recorditem/recordinfo");
+            
+            if (recordinfo == null)
+            {
+                XmlDocument recordinfoXml= new XmlDocument();
+                string t = appmsg.SelectSingleNode("recorditem").InnerText;
+                recordinfoXml.LoadXml(t);
+                recordinfo = recordinfoXml.SelectSingleNode("");
+            }
+            
+
+
+            string fromusername = xmlDocument.SelectSingleNode("/msg/fromusername").InnerText;
+            Console.WriteLine(fromusername);
+            return fromusername;
+
         }
     }
 }
